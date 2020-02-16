@@ -22,20 +22,25 @@ def eigenfunc(n, x, t):
 
 def superpos(weights, maxn, x, t):
   s=0
+  weights = normalize(weights)
   for n in range(maxn):
     s += weights[n] * eigenfunc(n + 1, x, t)
   return s
 
 def normalize(weights):
-  s = sqrt(sum(w**2 for w in weights))
-  return (w/s for w in weights)
+  s = sqrt(sum([w**2 for w in weights]))
+  return [w/s for w in weights]
 
 def animate(i):
   x = linspace(0,1,1000)
-  y = abs(superpos([1/sqrt(2),1/sqrt(2)],2,x,i))**2
+  y = abs(superpos([1,1,1,1],4,x,i/100))**2
   line.set_data(x, y)
   return line,
 
-anim = animation.FuncAnimation(fig, animate, 100, init, interval=20, blit=True)
+print(normalize([1,1,1]))
+
+anim = animation.FuncAnimation(fig, animate, 1000, init, interval=40, blit=True)
+
+#anim.save('basic_animation.mp4', fps=30, extra_args=['-vcodec', 'libx264'])
 
 plt.show()
