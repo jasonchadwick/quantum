@@ -31,16 +31,14 @@ def normalize(weights):
   s = sqrt(sum([w**2 for w in weights]))
   return [w/s for w in weights]
 
-def animate(i):
+def animate(i, w, c):
   x = linspace(0,1,1000)
-  y = abs(superpos([1,1,1,1],4,x,i/100))**2
+  y = abs(superpos(w,c,x,i/100))**2
   line.set_data(x, y)
   return line,
 
-print(normalize([1,1,1]))
+def make_animation(weights, maxnum):
+  anim = animation.FuncAnimation(fig, animate, 1000, init, fargs=(weights,maxnum), interval=40, blit=True)
+  plt.show()
 
-anim = animation.FuncAnimation(fig, animate, 1000, init, interval=40, blit=True)
-
-#anim.save('basic_animation.mp4', fps=30, extra_args=['-vcodec', 'libx264'])
-
-plt.show()
+make_animation([1,1],2)
