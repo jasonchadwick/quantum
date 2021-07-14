@@ -37,8 +37,10 @@ def animate(i, w, c):
   line.set_data(x, y)
   return line,
 
-def make_animation(weights, maxnum):
+def make_animation(weights, maxnum, save=False):
   anim = animation.FuncAnimation(fig, animate, 1000, init, fargs=(weights,maxnum), interval=40, blit=True)
+  if save:
+    anim.save('animation.gif', fps=25)
   plt.show()
 
-make_animation([1,1],2)
+make_animation([1,1,1],3,True)
