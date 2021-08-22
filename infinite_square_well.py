@@ -1,3 +1,4 @@
+import numpy as np
 from numpy import sqrt,sin,pi,linspace,e
 from matplotlib import pyplot as plt
 from matplotlib import animation
@@ -20,10 +21,10 @@ def phi(n, t):
 def eigenfunc(n, x, t):
   return sqrt(2) * psi(n, x) * phi(n, t)
 
-def superpos(weights, maxn, x, t):
+def superpos(weights, x, t):
   s=0
   weights = normalize(weights)
-  for n in range(maxn):
+  for n in range(len(weights)):
     s += weights[n] * eigenfunc(n + 1, x, t)
   return s
 
@@ -33,14 +34,14 @@ def normalize(weights):
 
 def animate(i, w, c):
   x = linspace(0,1,1000)
-  y = abs(superpos(w,c,x,i/100))**2
+  y = abs(superpos(w,x,i/100))**2
   line.set_data(x, y)
   return line,
 
-def make_animation(weights, maxnum, save=False):
-  anim = animation.FuncAnimation(fig, animate, 1000, init, fargs=(weights,maxnum), interval=40, blit=True)
+def make_animation(weights, save=False):
+  anim = animation.FuncAnimation(fig, animate, 1000, init, fargs=(weights,0), interval=40, blit=True)
   if save:
     anim.save('animation.gif', fps=25)
   plt.show()
 
-make_animation([1,1,1],3,True)
+make_animation([np.exp(-x) for x in range(10)],True)
